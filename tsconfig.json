@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "outDir": "dist",
+    "rootDir": "src",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "strictPropertyInitialization": false,
+    "types": ["node"], // Necessary if TypeScript version is higher than 6.0.3. Otherwise, it won't recognize th types of Node.js, like, process (for .env), Buffer,....
+    // Needed TypeScript options from TypeORM official docs 
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+  }
+}

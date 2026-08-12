@@ -1,0 +1,35 @@
+{
+  "name": "minidev_back_vercel",
+  "version": "1.0.0",
+  "description": "Backend de Express para levantar en Vercel",
+  "license": "ISC",
+  "author": "Adrian",
+  "type": "commonjs",
+  "main": "dist/index.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/infrastructure/index.ts",
+    "test": "test"
+  },
+  "dependencies": {
+    "body-parser": "^2.3.0",
+    "cors": "^2.8.6",
+    "csv-parser": "^3.2.1",
+    "express": "^5.2.1",
+    "multer": "^2.2.0",
+    "pg": "^8.23.0",
+    "typeorm": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/multer": "^2.2.0",
+    "@types/node": "^26.2.0",
+    "dotenv": "^17.4.2",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.5.6"
+  }
+}
