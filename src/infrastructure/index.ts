@@ -21,6 +21,9 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Express 5.2.1 + TypeScript 5.5.6 backend in Vercel is running");
 });
 
-app.listen(port, () => { // Mandatory to use in order to recieve requests. Without app.listen() it's like the backend is not running, even if the code is being executed.
-  console.log("Express backend in Vercel is running");
-});
+if (require.main === module) {
+  app.listen(port, () => {
+    // Mandatory to use in order to recieve requests. Without app.listen() it's like the backend is not running, even if the code is being executed.
+    console.log("Express backend in Vercel is running");
+  });
+}
