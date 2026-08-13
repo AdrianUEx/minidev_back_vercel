@@ -5,11 +5,11 @@
   "license": "ISC",
   "author": "Adrian",
   "type": "commonjs",
-  "main": "dist/index.ts",
+  "main": "dist/infrastructure/index.ts",
   "private": true,
   "scripts": {
     "build": "tsc",
-    "start": "node dist/index.ts",
+    "start": "node dist/infrastructure/index.ts",
     "dev": "ts-node-dev --respawn --transpile-only src/infrastructure/index.ts",
     "test": "test"
   },
