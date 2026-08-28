@@ -6,6 +6,10 @@ import process from "process"; // Needed if TypeScript version is above 6.0.3
 import bodyParser from "body-parser";
 import cors from "cors";
 import "dotenv/config";
+import { authorRouter } from "./routes/author";
+import { bookRouter } from "./routes/book";
+import { customerRouter } from "./routes/customer";
+import { loanRouter } from "./routes/loan";
 
 export const app = express();
 const port: number = process.env.PORT ? Number(process.env.PORT) : 3000; // This line needs the field "types" in tsconfig.json, probably because the TypeScript version is above 6.0.3
@@ -17,17 +21,30 @@ app.use(bodyParser.json());
 // Configure CORS
 app.use(cors()); // needs npm i --save-dev @types/cors
 
+// * load routers
+const customerRoutes = customerRouter;
+const authorRoutes = authorRouter;
+const bookRoutes = bookRouter;
+const loanRoutes = loanRouter;
+
+// * basic routes for asigning the routers
+app.use("/customers", customerRoutes);
+app.use("/authors", authorRoutes);
+app.use("/books", bookRoutes);
+app.use("/loans", loanRoutes);
+
+
 app.get("/", (req: Request, res: Response) => {
   res.send("Express 5.2.1 + TypeScript 5.5.6 backend in Vercel is running");
 });
 
-app.get("/author", (req: Request, res: Response) => {
+/* app.get("/author", (req: Request, res: Response) => {
   res.send("Petición GET a /author");
 });
 
 app.get("/author/:id", (req: Request, res: Response) => {
   res.send(`Petición GET a /author con id ${req.params.id}`);
-});
+}); */
 
 if (require.main === module) { // This condition is necessary to avoid running the server when the project is imported in Vercel. If this condition is not used or app.listen() is not commented, Vercel won't compile the project but it also won't show any error on the logs.
   app.listen(port, () => {
