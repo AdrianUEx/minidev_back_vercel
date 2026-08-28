@@ -29,7 +29,7 @@ app.get("/author/:id", (req: Request, res: Response) => {
   res.send(`Petición GET a /author con id ${req.params.id}`);
 });
 
-if (require.main === module) {
+if (require.main === module) { // This condition is necessary to avoid running the server when the project is imported in Vercel. If this condition is not used or app.listen() is not commented, Vercel won't compile the project but it also won't show any error on the logs.
   app.listen(port, () => {
     // Mandatory to use in order to recieve requests. Without app.listen() it's like the backend is not running, even if the code is being executed.
     console.log("Express backend in Vercel is running");
