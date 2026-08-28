@@ -10,6 +10,7 @@ import { authorRouter } from "./routes/author";
 import { bookRouter } from "./routes/book";
 import { customerRouter } from "./routes/customer";
 import { loanRouter } from "./routes/loan";
+import { initializeDatabase } from "./persistence/data-source";
 
 export const app = express();
 const port: number = process.env.PORT ? Number(process.env.PORT) : 3000; // This line needs the field "types" in tsconfig.json, probably because the TypeScript version is above 6.0.3
@@ -20,6 +21,10 @@ app.use(bodyParser.json());
 
 // Configure CORS
 app.use(cors()); // needs npm i --save-dev @types/cors
+
+async () => {
+  await initializeDatabase(); // * This line is necessary to initialize the database connection before starting the server. It will throw an error if the connection fails.
+}
 
 // * load routers
 const customerRoutes = customerRouter;
@@ -45,6 +50,7 @@ app.get("/", (req: Request, res: Response) => {
 app.get("/author/:id", (req: Request, res: Response) => {
   res.send(`Petición GET a /author con id ${req.params.id}`);
 }); */
+
 
 if (require.main === module) { // This condition is necessary to avoid running the server when the project is imported in Vercel. If this condition is not used or app.listen() is not commented, Vercel won't compile the project but it also won't show any error on the logs.
   app.listen(port, () => {
