@@ -25,7 +25,7 @@ export const AppDataSource = new DataSource({
   entities: [TypeORMAuthor, TypeORMBook, TypeORMCustomer, TypeORMLoan],
   subscribers: [],
   migrations: ["src/infrastructure/persistence/migrations"], // * This line, along 'synchronize: false', it's the basic setup for migrations
-  //driver: require("pg"), // * Mandatory if deploying in Vercel. Without this parameter, Vercel throws DriverPackageNotInstalledError asking for npm install pg.
+  driver: require("pg"), // * Mandatory if deploying in Vercel. Without this parameter, Vercel throws DriverPackageNotInstalledError asking for npm install pg.
   // optional
   /*  migrationsRun: false, // * specifies whether migrations should run automatically when the application is launched. The default value is false
     migrationsTableName: "migrations", // * name of the table that stores information about executed migrations. The default value is 'false'
