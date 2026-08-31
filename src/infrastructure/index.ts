@@ -58,4 +58,4 @@ app.get("/author/:id", (req: Request, res: Response) => {
   }); */
 
 
-export default app; // Necessary to export by default without a name, but also to be able to use this project in Vercel. If you don't export it by default, Vercel won't be able to find it and the Serverless function won't be created, throwing an error on logs.
+export default app; // *  Necessary to export by default without a name, but also to be able to use this project in Vercel. If you don't export it by default, Vercel won't be able to find it and the Serverless function won't be created, throwing an error on logs.
