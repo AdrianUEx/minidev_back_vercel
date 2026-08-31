@@ -11,6 +11,7 @@
     "build": "tsc",
     "start": "node dist/infrastructure/index.js",
     "dev": "ts-node-dev --respawn --transpile-only src/infrastructure/index.ts",
+    "postinstall": "npm install pg",
     "test": "test"
   },
   "dependencies": {
