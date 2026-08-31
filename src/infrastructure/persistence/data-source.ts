@@ -4,6 +4,8 @@ import { TypeORMBook } from "../../infrastructure/entities/typeOrmBook";
 import { TypeORMCustomer } from "../../infrastructure/entities/typeOrmCustomer";
 import { TypeORMLoan } from "../../infrastructure/entities/typeOrmLoan";
 
+import "reflect-metadata"
+
 // * DataSource is what allows to establish connection with DB. Several can be declared depending on the databases to work with
 // * They are always executed by calling initalize() method and connection is hold until destroy() is called.
 // * The JSON inside DataSource() are the DataSourceOptions and they vary depending on the specified database in the "type" property in it.
