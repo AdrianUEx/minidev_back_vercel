@@ -23,7 +23,7 @@ export const AppDataSource = new DataSource({
   entities: [TypeORMAuthor, TypeORMBook, TypeORMCustomer, TypeORMLoan],
   subscribers: [],
   migrations: ["src/infrastructure/persistence/migrations"], // * This line, along 'synchronize: false', it's the basic setup for migrations
-  driver: require("pg"),
+
   // optional
   /*  migrationsRun: false, // * specifies whether migrations should run automatically when the application is launched. The default value is false
     migrationsTableName: "migrations", // * name of the table that stores information about executed migrations. The default value is 'false'
