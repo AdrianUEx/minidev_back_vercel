@@ -22,9 +22,9 @@ app.use(bodyParser.json());
 // Configure CORS
 app.use(cors()); // needs npm i --save-dev @types/cors
 
-async () => {
+/* async () => {
   await initializeDatabase(); // * This line is necessary to initialize the database connection before starting the server. It will throw an error if the connection fails.
-}
+}; */
 
 // * load routers
 const customerRoutes = customerRouter;
@@ -37,7 +37,6 @@ app.use("/customers", customerRoutes);
 app.use("/authors", authorRoutes);
 app.use("/books", bookRoutes);
 app.use("/loans", loanRoutes);
-
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Express 5.2.1 + TypeScript 5.5.6 backend in Vercel is running");
@@ -56,6 +55,5 @@ app.get("/author/:id", (req: Request, res: Response) => {
     // Mandatory to use in order to recieve requests. Without app.listen() it's like the backend is not running, even if the code is being executed.
     console.log("Express backend in Vercel is running");
   }); */
-
 
 export default app; // *  Necessary to export by default without a name, but also to be able to use this project in Vercel. If you don't export it by default, Vercel won't be able to find it and the Serverless function won't be created, throwing an error on logs.
