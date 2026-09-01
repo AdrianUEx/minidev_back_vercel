@@ -22,9 +22,9 @@ app.use(bodyParser.json());
 // Configure CORS
 app.use(cors()); // needs npm i --save-dev @types/cors
 
-/* async () => {
-  await initializeDatabase(); // * This line is necessary to initialize the database connection before starting the server. It will throw an error if the connection fails.
-}; */
+app.use(async() => {
+  await initializeDatabase(); // * This function is called to initialize the database connection and register all entities. It must be called before any request is processed, otherwise the connection will not be established and the request will fail.
+});
 
 // * load routers
 const customerRoutes = customerRouter;
