@@ -10,7 +10,7 @@ import { authorRouter } from "./routes/author";
 import { bookRouter } from "./routes/book";
 import { customerRouter } from "./routes/customer";
 import { loanRouter } from "./routes/loan";
-import { initializeDatabase } from "./persistence/data-source";
+import { AppDataSource, initializeDatabase } from "./persistence/data-source";
 
 export const app = express();
 const port: number = process.env.PORT ? Number(process.env.PORT) : 3000; // This line needs the field "types" in tsconfig.json, probably because the TypeScript version is above 6.0.3
@@ -22,8 +22,10 @@ app.use(bodyParser.json());
 // Configure CORS
 app.use(cors()); // needs npm i --save-dev @types/cors
 
-app.use(() => {
-  initializeDatabase(); // * This function is called to initialize the database connection and register all entities. It must be called before any request is processed, otherwise the connection will not be established and the request will fail.
+app.use(() => { // This is invoked with every request, but we only want to do it once
+  if (!AppDataSource.isInitialized) 
+    initializeDatabase(); // * This function is called to initialize the database connection and register all entities. It must be called before any request is processed, otherwise the connection will not be established and the request will fail.
+
 });
 
 // * load routers
