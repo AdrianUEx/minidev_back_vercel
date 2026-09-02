@@ -1,4 +1,4 @@
-// * Method list to intercept requests oriented to Loan entity management
+// * Method list to intercept requests oriented to TypeORMLoan entity management
 import { Request, Response } from "express";
 import { TypeORMLoan } from "../entities/typeOrmLoan";
 import { LoanState } from "../../domain/models/loan";

@@ -1,4 +1,4 @@
-// * Method list to intercept requests oriented toTypeORMCustomerentity management
+// * Method list to intercept requests oriented to TypeORMCustomer entity management
 import { Request, Response } from "express";
 import { TypeORMCustomer } from "../entities/typeOrmCustomer";
 import { AppDataSource } from "../persistence/data-source";

@@ -1,3 +1,4 @@
+import "reflect-metadata"
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
 
 @Entity({name: "author"}) // Database table name. If not specified, the table name will be the same as the class name. If that classname is changed, queries will fail without throwing error, because TypeORM will not find the existing entity by that new name.

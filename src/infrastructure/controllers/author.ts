@@ -1,4 +1,4 @@
-// * Method list to intercept requests oriented toTypeORMAuthorentity management
+// * Method list to intercept requests oriented to TypeORMAuthor entity management
 
 import { Request, Response } from "express";
 import { AppDataSource } from "../../infrastructure/persistence/data-source";

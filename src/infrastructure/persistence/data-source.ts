@@ -22,7 +22,7 @@ export const AppDataSource = new DataSource({
   database: "books", */
   synchronize: false, // * this property must be false when using migrations to not synchronize schemas automatically
   logging: true,
-  entities: [__dirname + "/../**/entities/*.{js,ts}"], // * This line is mandatory to register all entities in the DataSource. It must be called before any request is processed, otherwise the connection will not be established and the request will fail.
+  entities: [__dirname + "/../entities/*.{js,ts}"], // * This line is mandatory to register all entities in the DataSource. It must be called before any request is processed, otherwise the connection will not be established and the request will fail.
   subscribers: [],
   migrations: [], // * This line, along 'synchronize: false', it's the basic setup for migrations
   driver: require("pg"), // * Mandatory if deploying in Vercel. Without this parameter, Vercel throws DriverPackageNotInstalledError asking for npm install pg.
