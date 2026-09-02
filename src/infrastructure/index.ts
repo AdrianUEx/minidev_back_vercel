@@ -1,5 +1,6 @@
-import express, { NextFunction, Request, Response } from "express";
 import "reflect-metadata";
+
+import express, { NextFunction, Request, Response } from "express";
 import process from "process"; // Needed if TypeScript version is above 6.0.3
 
 // External Node.js dependencies
