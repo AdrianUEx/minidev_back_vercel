@@ -45,3 +45,5 @@ export async function initializeDatabase() {
     console.error("Error during Data Source initialization", error);
   }
 }
+
+export default AppDataSource;

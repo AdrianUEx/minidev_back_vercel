@@ -22,3 +22,5 @@ export class TypeORMAuthor {
     @Column("text")
     biography: string
 }
+
+export default TypeORMAuthor;
