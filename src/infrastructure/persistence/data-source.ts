@@ -5,6 +5,7 @@ import { TypeORMAuthor } from "../../infrastructure/entities/typeOrmAuthor";
 import { TypeORMBook } from "../../infrastructure/entities/typeOrmBook";
 import { TypeORMCustomer } from "../../infrastructure/entities/typeOrmCustomer";
 import { TypeORMLoan } from "../../infrastructure/entities/typeOrmLoan";
+import path from "path";
 
 // * DataSource is what allows to establish connection with DB. Several can be declared depending on the databases to work with
 // * They are always executed by calling initalize() method and connection is hold until destroy() is called.
@@ -22,7 +23,7 @@ export const AppDataSource = new DataSource({
   database: "books", */
   synchronize: false, // * this property must be false when using migrations to not synchronize schemas automatically
   logging: true,
-  entities: [__dirname + "/../entities/*.{js,ts}"], // * This line is mandatory to register all entities in the DataSource. It must be called before any request is processed, otherwise the connection will not be established and the request will fail.
+  entities: [path.join(__dirname, "../entities/*.{js,ts}")], // * This line is mandatory to register all entities in the DataSource. It must be called before any request is processed, otherwise the connection will not be established and the request will fail.
   subscribers: [],
   migrations: [], // * This line, along 'synchronize: false', it's the basic setup for migrations
   driver: require("pg"), // * Mandatory if deploying in Vercel. Without this parameter, Vercel throws DriverPackageNotInstalledError asking for npm install pg.
