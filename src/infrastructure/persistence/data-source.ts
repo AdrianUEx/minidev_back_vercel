@@ -1,5 +1,6 @@
 import "reflect-metadata"
-import pg from "pg";
+import pg from "pg"; // Needed if we want to deploy in Vercel given how TypeORM imports drivers. This can force TypeORM to use the pg driver it needs.
+
 import { DataSource } from "typeorm";
 import { TypeORMAuthor } from "../../infrastructure/entities/typeOrmAuthor";
 import { TypeORMBook } from "../../infrastructure/entities/typeOrmBook";
@@ -27,7 +28,7 @@ export const AppDataSource = new DataSource({
   entities: [TypeORMAuthor, TypeORMBook, TypeORMCustomer, TypeORMLoan],
   subscribers: [],
   migrations: [], // * This line, along 'synchronize: false', it's the basic setup for migrations
-  //driver: pg, // * Mandatory if deploying in Vercel. Without this parameter, Vercel throws DriverPackageNotInstalledError asking for npm install pg. It seems it happens because TypeORM >=1.1 loads drivers via a dynamic require that esbuild cannot bundle, so pg must be passed explicitly.
+  driver: pg, // * Mandatory if deploying in Vercel. Without this parameter, Vercel throws DriverPackageNotInstalledError asking for npm install pg. It seems it happens because TypeORM >=1.1 loads drivers via a dynamic require that esbuild cannot bundle, so pg must be passed explicitly.
   // optional
   /*  migrationsRun: false, // * specifies whether migrations should run automatically when the application is launched. The default value is false
     migrationsTableName: "migrations", // * name of the table that stores information about executed migrations. The default value is 'false'
