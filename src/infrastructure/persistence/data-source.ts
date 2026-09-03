@@ -1,5 +1,5 @@
 import "reflect-metadata"
-
+import pg from "pg";
 import { DataSource } from "typeorm";
 import { TypeORMAuthor } from "../../infrastructure/entities/typeOrmAuthor";
 import { TypeORMBook } from "../../infrastructure/entities/typeOrmBook";
@@ -12,20 +12,22 @@ import { TypeORMLoan } from "../../infrastructure/entities/typeOrmLoan";
 // * In order to use DataSource it must be first invoked in the main file (usually app.js/index.js). Then, you can recover that instance by invoking the .manager() or .getRepository() method
 
 export const AppDataSource = new DataSource({
-  type: "postgres",
+  type: "postgres", // * Mandatory ALWAYS
   // ! if you want to use Supabase, then you must use the url property instead of host, port, username, password and database properties. The url property is simply the connection string that you can get from the supabase dashboard, and it is made by these properties, that's why you don't need them.
   url: process.env.SUPABASE_TRANSACTION_POOLER_URL, // * This is the connection string that you can get from the supabase dashboard. It is made by the host, port, username, password and database properties, that's why you don't need them.
-  /*   host: "localhost",
+  /*   
+  host: "localhost",
   port: 5432,
   username: "devuser",
   password: "password",
-  database: "books", */
+  database: "books", 
+  */
   synchronize: true, // * this property must be false when using migrations to not synchronize schemas automatically
   logging: true,
   entities: [TypeORMAuthor, TypeORMBook, TypeORMCustomer, TypeORMLoan],
   subscribers: [],
   migrations: [], // * This line, along 'synchronize: false', it's the basic setup for migrations
-  //driver: require("pg"), // * Mandatory if deploying in Vercel. Without this parameter, Vercel throws DriverPackageNotInstalledError asking for npm install pg.
+  //driver: pg, // * Mandatory if deploying in Vercel. Without this parameter, Vercel throws DriverPackageNotInstalledError asking for npm install pg. It seems it happens because TypeORM >=1.1 loads drivers via a dynamic require that esbuild cannot bundle, so pg must be passed explicitly.
   // optional
   /*  migrationsRun: false, // * specifies whether migrations should run automatically when the application is launched. The default value is false
     migrationsTableName: "migrations", // * name of the table that stores information about executed migrations. The default value is 'false'
