@@ -1,5 +1,3 @@
-
-
 import express, { NextFunction, Request, Response } from "express";
 import process from "process"; // Needed if TypeScript version is above 6.0.3
 
@@ -23,12 +21,15 @@ app.use(bodyParser.json());
 // Configure CORS
 app.use(cors()); // needs npm i --save-dev @types/cors
 
- app.use((req: Request, res: Response, next: NextFunction) => { // This is invoked with every request, but we only want to do it once
-  if (!AppDataSource.isInitialized) 
+app.use((req: Request, res: Response, next: NextFunction) => {
+  // This is invoked with every request, but we only want to do it once
+  if (!AppDataSource.isInitialized) {
     initializeDatabase(); // * This function is called to initialize the database connection and register all entities. It must be called before any request is processed, otherwise the connection will not be established and the request will fail.
-  
+  } else {
+    console.log("Data Source from TypeORM is already initialized!");
+  }
   next();
-}); 
+});
 
 // * load routers
 const customerRoutes = customerRouter;
@@ -43,7 +44,7 @@ app.use("/books", bookRoutes);
 app.use("/loans", loanRoutes);
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Express 5.2.1 + TypeScript 5.5.6 backend in Vercel is running");
+  res.send("Express 4.18.2 + TypeScript 5.5.6 backend in Vercel is running");
 });
 
 /* app.get("/author", (req: Request, res: Response) => {

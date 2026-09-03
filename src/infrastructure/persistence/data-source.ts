@@ -44,6 +44,8 @@ export async function initializeDatabase() {
     if (!AppDataSource.isInitialized) {
       await AppDataSource.initialize();
       console.log("Data Source from TypeORM has been initialized!");
+    } else {
+      console.log("Data Source from TypeORM is already initialized!");
     }
   } catch (error) {
     console.error("Error during Data Source initialization", error);
