@@ -1,4 +1,4 @@
-import "reflect-metadata"
+import "reflect-metadata";
 import pg from "pg"; // Needed if we want to deploy in Vercel given how TypeORM imports drivers. This can force TypeORM to use the pg driver it needs.
 
 import { DataSource } from "typeorm";
@@ -41,8 +41,10 @@ export const AppDataSource = new DataSource({
 
 export async function initializeDatabase() {
   try {
-    await AppDataSource.initialize();
-    console.log("Data Source from TypeORM has been initialized!");
+    if (!AppDataSource.isInitialized) {
+      await AppDataSource.initialize();
+      console.log("Data Source from TypeORM has been initialized!");
+    }
   } catch (error) {
     console.error("Error during Data Source initialization", error);
   }
