@@ -4,7 +4,7 @@
   "description": "Backend de Express para levantar en Vercel",
   "license": "ISC",
   "author": "Adrian",
-  "type": "module",
+  "type": "commonjs",
   "main": "dist/infrastructure/index.js",
   "private": true,
   "scripts": {
