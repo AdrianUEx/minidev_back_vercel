@@ -29,7 +29,7 @@ export const AppDataSource = new DataSource({
   subscribers: [],
   migrations: [], // * This line, along 'synchronize: false', it's the basic setup for migrations
   poolSize: 1, // * Capped to 1 by Supabase official docu for serverless functions, because a bigger pool caps the instance not the connection
-  
+  metadataTableName: "typeorm_metadata", // * This is the table that TypeORM uses to store metadata about the entities and their relations. The name is the name by default, but I'm just testing.
   driver: pg, // * Mandatory if deploying in Vercel. Without this parameter, Vercel throws DriverPackageNotInstalledError asking for npm install pg. It seems it happens because TypeORM >=1.1 loads drivers via a dynamic require that esbuild cannot bundle, so pg must be passed explicitly.
   
   
