@@ -2,10 +2,10 @@ import "reflect-metadata";
 import pg from "pg"; // Needed if we want to deploy in Vercel given how TypeORM imports drivers. This can force TypeORM to use the pg driver it needs.
 
 import { DataSource } from "typeorm";
-import { TypeORMAuthor } from "../../infrastructure/entities/typeOrmAuthor";
-import { TypeORMBook } from "../../infrastructure/entities/typeOrmBook";
-import { TypeORMCustomer } from "../../infrastructure/entities/typeOrmCustomer";
-import { TypeORMLoan } from "../../infrastructure/entities/typeOrmLoan";
+import { TypeORMAuthor } from "../entities/typeOrmAuthor";
+import { TypeORMBook } from "..//entities/typeOrmBook";
+import { TypeORMCustomer } from "..//entities/typeOrmCustomer";
+import { TypeORMLoan } from "../entities/typeOrmLoan";
 
 // * DataSource is what allows to establish connection with DB. Several can be declared depending on the databases to work with
 // * They are always executed by calling initalize() method and connection is hold until destroy() is called.

@@ -21,16 +21,6 @@ app.use(bodyParser.json());
 // Configure CORS
 app.use(cors()); // needs npm i --save-dev @types/cors
 
-app.use((req: Request, res: Response, next: NextFunction) => {
-  // This is invoked with every request, but we only want to do it once
-  if (!AppDataSource.isInitialized) {
-    initializeDatabase(); // * This function is called to initialize the database connection and register all entities. It must be called before any request is processed, otherwise the connection will not be established and the request will fail.
-  } else {
-    console.log("Index.ts: Data Source from TypeORM is already initialized!");
-  }
-  next();
-});
-
 // * load routers
 const customerRoutes = customerRouter;
 const authorRoutes = authorRouter;
