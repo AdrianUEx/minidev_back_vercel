@@ -5,7 +5,7 @@
   "license": "ISC",
   "author": "Adrian",
   "type": "commonjs",
-  "main": "src/infrastructure/index.ts",
+  "main": "dist/infrastructure/index.js",
   "private": true,
   "scripts": {
     "build": "tsc",

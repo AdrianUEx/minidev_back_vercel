@@ -2,9 +2,7 @@ import "reflect-metadata";
 import pg from "pg"; // Needed if we want to deploy in Vercel given how TypeORM imports drivers. This can force TypeORM to use the pg driver it needs.
 
 import { DataSource } from "typeorm";
-console.log("Importando TypeORMAuthor")
 import { TypeORMAuthor } from "../entities/typeOrmAuthor";
-console.log("TypeORMAuthor importado")
 import { TypeORMBook } from "../entities/typeOrmBook";
 import { TypeORMCustomer } from "../entities/typeOrmCustomer";
 import { TypeORMLoan } from "../entities/typeOrmLoan";
