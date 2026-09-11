@@ -2,9 +2,11 @@ import "reflect-metadata";
 import pg from "pg"; // Needed if we want to deploy in Vercel given how TypeORM imports drivers. This can force TypeORM to use the pg driver it needs.
 
 import { DataSource } from "typeorm";
+console.log("Importando TypeORMAuthor")
 import { TypeORMAuthor } from "../entities/typeOrmAuthor";
-import { TypeORMBook } from "..//entities/typeOrmBook";
-import { TypeORMCustomer } from "..//entities/typeOrmCustomer";
+console.log("TypeORMAuthor importado")
+import { TypeORMBook } from "../entities/typeOrmBook";
+import { TypeORMCustomer } from "../entities/typeOrmCustomer";
 import { TypeORMLoan } from "../entities/typeOrmLoan";
 
 // * DataSource is what allows to establish connection with DB. Several can be declared depending on the databases to work with
@@ -51,6 +53,6 @@ export async function initializeDatabase() {
       console.log("DataSource: Data Source from TypeORM is already initialized!");
     }
   } catch (error) {
-    console.error("Error during Data Source initialization", error);
+    console.error("Error during Data Source initialization: ", error);
   }
 }
