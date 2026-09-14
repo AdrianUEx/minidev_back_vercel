@@ -55,13 +55,13 @@ export async function signUpAuthor(req: Request, res: Response) {
   //await authorRepository.create(newAuthor);
 
   if (!AppDataSource.isInitialized) {
-    initializeDatabase();
+    await initializeDatabase();
   }
 
   if (AppDataSource.isInitialized) {
     const useCase = new AuthorCreator(authorRepository);
     useCase.run(newAuthor);
-    
+
     res.status(201).send("Author inserted successfully");
   } else {
     console.error("Data Source is not initialized. Cannot create author.");
