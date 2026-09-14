@@ -19,6 +19,10 @@ export async function getAuthors(req: Request, res: Response) {
   let authorList: TypeORMAuthor[] = [];
   const useCase = new AuthorSearcher(authorRepository);
 
+  if (!AppDataSource.isInitialized) {
+    await initializeDatabase();
+  }
+
   // authorList = await authorRepository.find();
   authorList = await useCase.run();
 
@@ -29,6 +33,10 @@ export async function getAuthor(req: Request, res: Response) {
   let author: TypeORMAuthor | null = null;
   const authorId: string = req.params.id; // '.params' returns string values
   console.log("Id de parámetros: ", authorId);
+
+  if (!AppDataSource.isInitialized) {
+    await initializeDatabase();
+  }
 
   /*     author = await authorRepository.findOneBy({
       id: Number.parseInt(authorId),
@@ -79,6 +87,9 @@ export async function updateAuthor(req: Request, res: Response) {
       req.params.id,
       author,
     ); */
+  if (!AppDataSource.isInitialized) {
+    await initializeDatabase();
+  }
 
   await useCase.run(Number.parseInt(req.params.id), author); // Here it can't be only the author because that would mean that the client has COMPLETE information about the author and can modify it, so the id must come from a separate source.
 
@@ -88,6 +99,10 @@ export async function updateAuthor(req: Request, res: Response) {
 export async function deleteAuthor(req: Request, res: Response) {
   const authorId: string = req.params.id; // '.params' returns string values
   const useCase: AuthorDeleter = new AuthorDeleter(authorRepository);
+
+  if (!AppDataSource.isInitialized) {
+    await initializeDatabase();
+  }
 
   await useCase.run(Number.parseInt(authorId)); // * This is the use case that will delete the author with the given id. It will throw an error if the author is not found.
   res.status(204).send("Author deleted successfully");
