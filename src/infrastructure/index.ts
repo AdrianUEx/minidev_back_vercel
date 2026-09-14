@@ -34,7 +34,7 @@ app.use("/customers", customerRoutes);
 app.use("/authors", authorRoutes);
 app.use("/books", bookRoutes);
 app.use("/loans", loanRoutes);
-app.use(() => initializeDatabase())
+app.use(async () => await initializeDatabase())
 
 app.get("/", (req: Request, res: Response) => {
   console.log("Petición GET estándar a / que se lanza siempre con cada petición.")
