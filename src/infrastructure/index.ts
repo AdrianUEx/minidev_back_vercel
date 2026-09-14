@@ -34,10 +34,10 @@ app.use("/authors", authorRoutes);
 app.use("/books", bookRoutes);
 app.use("/loans", loanRoutes);
 
-/* app.get("/", (req: Request, res: Response) => {
+app.get("/", (req: Request, res: Response) => {
   console.log("Petición GET estándar a / que se lanza siempre con cada petición.")
   res.send("Express 4.18.2 + TypeScript 5.5.6 backend in Vercel is running");
-}); */
+});
 
 /* app.get("/author", (req: Request, res: Response) => {
   res.send("Petición GET a /author");
