@@ -11,6 +11,7 @@ import { authorRouter } from "./routes/author";
 import { bookRouter } from "./routes/book";
 import { customerRouter } from "./routes/customer";
 import { loanRouter } from "./routes/loan";
+import { initializeDatabase } from "./persistence/data-source";
 
 export const app = express();
 const port: number = process.env.PORT ? Number(process.env.PORT) : 3000; // This line needs the field "types" in tsconfig.json, probably because the TypeScript version is above 6.0.3
@@ -33,6 +34,7 @@ app.use("/customers", customerRoutes);
 app.use("/authors", authorRoutes);
 app.use("/books", bookRoutes);
 app.use("/loans", loanRoutes);
+app.use(() => initializeDatabase())
 
 app.get("/", (req: Request, res: Response) => {
   console.log("Petición GET estándar a / que se lanza siempre con cada petición.")
