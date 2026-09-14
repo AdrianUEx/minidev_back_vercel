@@ -9,7 +9,7 @@ import { AuthorFinder } from "../../application/use-cases/authors/authorFinder";
 import { AuthorCreator } from "../../application/use-cases/authors/authorCreator";
 import { AuthorUpdater } from "../../application/use-cases/authors/authorUpdater";
 import { authorRepository } from "./dependencies/controllerDependencies";
-import { AppDataSource } from "../persistence/data-source";
+import { AppDataSource, initializeDatabase } from "../persistence/data-source";
 
 //const orm = AppDataSource;
 //const authorRepository = orm.getRepository(TypeORMAuthor);
@@ -54,17 +54,21 @@ export async function signUpAuthor(req: Request, res: Response) {
   //result = await authorRepository.insert(newAuthor); // .save() can also be used instead of .insert(), but .insert() is more specialized
   //await authorRepository.create(newAuthor);
 
-  if(AppDataSource.isInitialized) {
+  if (!AppDataSource.isInitialized) {
+    initializeDatabase();
+  }
+
+  if (AppDataSource.isInitialized) {
     const useCase = new AuthorCreator(authorRepository);
     useCase.run(newAuthor);
-  }
-  else {
+    
+    res.status(201).send("Author inserted successfully");
+  } else {
     console.error("Data Source is not initialized. Cannot create author.");
-    res.status(500).send("Data Source is not initialized. Cannot create author.");
+    res
+      .status(500)
+      .send("Data Source is not initialized. Cannot create author.");
   }
-
-
-  res.status(201).send("Author inserted successfully");
 }
 
 export async function updateAuthor(req: Request, res: Response) {
