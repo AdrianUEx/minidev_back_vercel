@@ -41,7 +41,7 @@ export async function getAuthor(req: Request, res: Response) {
 
 export async function signUpAuthor(req: Request, res: Response) {
   const newAuthor: TypeORMAuthor = req.body; // * This is the JSON of a new TypeORMAuthor coming from a form or similar.
-
+  console.log("New author: ", newAuthor);
   /*   
   newAuthor.name = req.body.name;
   newAuthor.lastname = req.body.lastname;
@@ -55,8 +55,8 @@ export async function signUpAuthor(req: Request, res: Response) {
   //await authorRepository.create(newAuthor);
 
   if(AppDataSource.isInitialized) {
-  const useCase = new AuthorCreator(authorRepository);
-  useCase.run(newAuthor);
+    const useCase = new AuthorCreator(authorRepository);
+    useCase.run(newAuthor);
   }
   else {
     console.error("Data Source is not initialized. Cannot create author.");
