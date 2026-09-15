@@ -5,10 +5,12 @@ import { pipeline, Transform } from "node:stream";
 import fs from "fs";
 
 import { InsertResult } from "typeorm";
-import { AppDataSource } from "../../infrastructure/persistence/data-source";
+import {
+  AppDataSource,
+  initializeDatabase,
+} from "../../infrastructure/persistence/data-source";
 import { TypeORMAuthor } from "../entities/typeOrmAuthor";
 import { TypeORMBook } from "../entities/typeOrmBook";
-
 
 const orm = AppDataSource;
 const authorRepository = orm.getRepository(TypeORMAuthor);
@@ -32,6 +34,10 @@ export function directUpload(req: Request, res: Response) {
       let result: InsertResult = new InsertResult();
 
       try {
+        if (!AppDataSource.isInitialized) {
+          await initializeDatabase();
+        }
+
         // This QueryParam can only be 'author' or 'book' to be able to select one Transform stream or the other
         if (content === "author") {
           // every chunk is a row from the CSV, BUT 'csv-parser' delivers it as JSON
@@ -96,6 +102,10 @@ export function fromRequestUpload(req: Request, res: Response) {
       let result: InsertResult = new InsertResult();
 
       try {
+        if (!AppDataSource.isInitialized) {
+          await initializeDatabase();
+        }
+
         // This QueryParam can only be 'author' or 'book' to be able to select one Transform stream or the other
         if (content === "author") {
           // every chunk is a row from the CSV, BUT 'csv-parser' delivers it as JSON

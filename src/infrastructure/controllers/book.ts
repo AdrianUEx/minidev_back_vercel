@@ -9,12 +9,15 @@ import { BookCreator } from "../../application/use-cases/books/bookCreator";
 import { BookUpdater } from "../../application/use-cases/books/bookUpdater";
 import { BookDeleter } from "../../application/use-cases/books/bookDeleter";
 import { bookRepository } from "./dependencies/controllerDependencies";
-
+import { AppDataSource, initializeDatabase } from "../persistence/data-source";
 
 export async function getBooks(req: Request, res: Response) {
   let bookList: TypeORMBook[] = [];
   const useCase = new BookSearcher(bookRepository);
 
+  if (!AppDataSource.isInitialized) {
+    await initializeDatabase();
+  }
   //bookList = await bookRepository.find();
   bookList = await useCase.run();
 
@@ -27,6 +30,9 @@ export async function getBook(req: Request, res: Response) {
 
   const bookId: string = req.params.id;
 
+  if (!AppDataSource.isInitialized) {
+    await initializeDatabase();
+  }
   //book = await bookRepository.findOneBy({ isbn: Number.parseInt(bookId) }); // * Supposing id comes from frontend somehow. We use Number.parseInt() instead of .parseInt() because it's more recent, although they are the same.
   book = await useCase.run(Number.parseInt(bookId));
 
@@ -40,6 +46,9 @@ export async function registerBook(req: Request, res: Response) {
   let result: InsertResult = new InsertResult();
   const useCase = new BookCreator(bookRepository);
 
+  if (!AppDataSource.isInitialized) {
+    await initializeDatabase();
+  }
   // ! insert() inserts infinitely asigning a new id instead of checking first if it already exists. Maybe we should make the title a composite PK along with the id or mark both with UNIQUE using @Unique({[... , ...]}).
   //result = await bookRepository.insert(newBook);
   await useCase.run(newBook);
@@ -54,6 +63,10 @@ export async function updateBook(req: Request, res: Response) {
       req.params.id,
       book,
     ); */
+  if (!AppDataSource.isInitialized) {
+    await initializeDatabase();
+  }
+
   await useCase.run(Number.parseInt(req.params.id), book);
 
   res.status(200).send(`Book updated successfully`);
@@ -62,6 +75,10 @@ export async function updateBook(req: Request, res: Response) {
 export async function deleteBook(req: Request, res: Response) {
   const bookId: string = req.params.id; // '.params' return string values
   const useCase = new BookDeleter(bookRepository);
+
+  if (!AppDataSource.isInitialized) {
+    await initializeDatabase();
+  }
 
   //await bookRepository.delete(bookId);
   await useCase.run(Number.parseInt(bookId));

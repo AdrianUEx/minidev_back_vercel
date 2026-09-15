@@ -7,13 +7,17 @@ import { LoanFinder } from "../../application/use-cases/loans/loanFinder";
 import { LoanUpdater } from "../../application/use-cases/loans/loanUpdater";
 import { LoanDeleter } from "../../application/use-cases/loans/loanDeleter";
 import { loanRepository } from "./dependencies/controllerDependencies";
-
+import { AppDataSource, initializeDatabase } from "../persistence/data-source";
 
 export async function getLoans(req: Request, res: Response) {
   let loanList: TypeORMLoan[] = [];
   const useCase = new LoanSearcher(loanRepository);
 
   //loanList = await loanRepository.find();
+
+  if (!AppDataSource.isInitialized) {
+    await initializeDatabase();
+  }
 
   loanList = await useCase.run();
   res.status(200).send({ loanList });
@@ -25,6 +29,10 @@ export async function getLoan(req: Request, res: Response) {
 
   const loanId = req.params.id;
   //loan = await loanRepository.findOneBy({ id: Number.parseInt(loanId) }); // * Supposing id comes from frontend somehow. We use Number.parseInt() instead of .parseInt() because it's more recent, although they are the same.
+
+  if (!AppDataSource.isInitialized) {
+    await initializeDatabase();
+  }
 
   loan = await useCase.run(Number.parseInt(loanId));
 
@@ -40,6 +48,10 @@ export async function createLoan(req: Request, res: Response) {
 
   //await loanRepository.insert(newLoan); // .save() can also be used instead of .insert(), but .insert() is more specialized
 
+  if (!AppDataSource.isInitialized) {
+    await initializeDatabase();
+  }
+
   await useCase.run(newLoan);
   res.status(201).send("Loan inserted successfully");
 }
@@ -48,6 +60,10 @@ export async function createLoan(req: Request, res: Response) {
 export async function updateLoan(req: Request, res: Response) {
   let loan = req.body;
   const useCase = new LoanUpdater(loanRepository);
+
+  if (!AppDataSource.isInitialized) {
+    await initializeDatabase();
+  }
 
   //loan = await loanRepository.update(req.params.id, loan);
   await useCase.run(Number.parseInt(req.params.id), loan);
@@ -58,6 +74,10 @@ export async function updateLoan(req: Request, res: Response) {
 export async function deleteLoan(req: Request, res: Response) {
   const loanId = req.params.id;
   const useCase = new LoanDeleter(loanRepository);
+
+  if (!AppDataSource.isInitialized) {
+    await initializeDatabase();
+  }
 
   // await loanRepository.delete(loanId);
   await useCase.run(Number.parseInt(loanId));

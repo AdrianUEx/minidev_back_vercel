@@ -8,12 +8,15 @@ import { CustomerCreator } from "../../application/use-cases/customers/customerC
 import { CustomerUpdater } from "../../application/use-cases/customers/customerUpdater";
 import { CustomerDeleter } from "../../application/use-cases/customers/customerDeleter";
 import { customerRepository } from "./dependencies/controllerDependencies";
-
+import { AppDataSource, initializeDatabase } from "../persistence/data-source";
 
 export async function getCustomers(req: Request, res: Response) {
   let customerList: TypeORMCustomer[] = [];
   const useCase = new CustomerSearcher(customerRepository);
 
+  if (!AppDataSource.isInitialized) {
+    await initializeDatabase();
+  }
   // customerList = await customerRepository.find(); // * .find() without arguments executes a SELECT * FROM "Customer"; query, whereTypeORMCustomeris the database table
   customerList = await useCase.run();
   res.status(200).send({ customerList });
@@ -26,6 +29,9 @@ export async function getCustomer(req: Request, res: Response) {
   /*     customer = await customerRepository.findOneBy({
       id: Number.parseInt(req.params.id),
     });  */ // * Supposing id comes from fronted somehow. We use Number.parseInt() instead of .parseInt() because it's more recent, although they are the same.
+  if (!AppDataSource.isInitialized) {
+    await initializeDatabase();
+  }
 
   customer = await useCase.run(Number.parseInt(req.params.id));
 
@@ -43,6 +49,10 @@ export async function signUpCustomer(req: Request, res: Response) {
   newCustomer.registrationDate = req.body.registrationDate;
 
   // await customerRepository.insert(newCustomer);
+  
+  if (!AppDataSource.isInitialized) {
+    await initializeDatabase();
+  }
 
   await useCase.run(newCustomer);
   res.status(201).send("Customer inserted successfully");
@@ -51,6 +61,10 @@ export async function signUpCustomer(req: Request, res: Response) {
 export async function updateCustomer(req: Request, res: Response) {
   let customer = req.body;
   const useCase = new CustomerUpdater(customerRepository);
+
+  if (!AppDataSource.isInitialized) {
+    await initializeDatabase();
+  }
 
   //customer = await customerRepository.update(req.params.id, customer);
   await useCase.run(Number.parseInt(req.params.id), customer);
@@ -63,6 +77,9 @@ export async function deleteCustomer(req: Request, res: Response) {
 
   // await customerRepository.delete(customerId);
 
+  if (!AppDataSource.isInitialized) {
+    await initializeDatabase();
+  }
   await useCase.run(Number.parseInt(customerId));
   res.status(200).send("Customer deleted successfully");
 }
