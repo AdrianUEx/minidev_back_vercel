@@ -34,7 +34,7 @@ app.use("/customers", customerRoutes);
 app.use("/authors", authorRoutes);
 app.use("/books", bookRoutes);
 app.use("/loans", loanRoutes);
-app.use((error: Error,req: Request, res: Response, next: NextFunction) => { // This defaults to any request, so this code will execute with every request.
+app.use((error: Error, req: Request, res: Response, next: NextFunction) => { // This defaults to any request, so this code will execute with every request.
   if (!AppDataSource.isInitialized) {
     initializeDatabase();
   }
