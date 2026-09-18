@@ -34,7 +34,7 @@ app.use("/customers", customerRoutes);
 app.use("/authors", authorRoutes);
 app.use("/books", bookRoutes);
 app.use("/loans", loanRoutes);
-app.use((req: Request, res: Response, next: NextFunction) => {
+app.use((error: Error,req: Request, res: Response, next: NextFunction) => { // This defaults to any request, so this code will execute with every request.
   if (!AppDataSource.isInitialized) {
     initializeDatabase();
   }
@@ -48,13 +48,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Express 4.18.2 + TypeScript 5.5.6 backend in Vercel is running");
 });
 
-/* app.get("/author", (req: Request, res: Response) => {
-  res.send("Petición GET a /author");
-});
 
-app.get("/author/:id", (req: Request, res: Response) => {
-  res.send(`Petición GET a /author con id ${req.params.id}`);
-}); */
 
 //  If app.listen() is not commented, Vercel won't compile the project but it also won't show any error on the logs.
 /*   app.listen(port, () => {
