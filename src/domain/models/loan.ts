@@ -11,7 +11,7 @@ export enum LoanState {
 export class Loan {
 
   id: number; // * number is mapped by default as integer in the DB.
-  book: Book[];
+  book: Book;
   client: Customer;
   loanDate: Date;
   predictedReturnDate: Date;
