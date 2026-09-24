@@ -4,11 +4,9 @@ import express, { NextFunction, Request, Response } from "express";
 //import process from "process"; // Needed if TypeScript version is above 6.0.3
 
 // Infrastructure Layer dependencies
-import { authorRouter } from "./routes/author";
-import { bookRouter } from "./routes/book";
-import { customerRouter } from "./routes/customer";
-import { loanRouter } from "./routes/loan";
+import * as controllerRoutes from "./routes";
 import { AppDataSource, initializeDatabase } from "./persistence/data-source";
+
 // External Node.js dependencies
 import bodyParser from "body-parser";
 import cors from "cors";
@@ -26,10 +24,10 @@ app.use(bodyParser.json());
 app.use(cors()); // needs npm i --save-dev @types/cors
 
 // * load routers
-const customerRoutes = customerRouter;
-const authorRoutes = authorRouter;
-const bookRoutes = bookRouter;
-const loanRoutes = loanRouter;
+const customerRoutes = controllerRoutes.customerRouter;
+const authorRoutes = controllerRoutes.authorRouter;
+const bookRoutes = controllerRoutes.bookRouter;
+const loanRoutes = controllerRoutes.loanRouter;
 
 // * basic routes for asigning the routers
 app.use("/customers", customerRoutes);
