@@ -1,17 +1,19 @@
 import "reflect-metadata";
 
 import express, { NextFunction, Request, Response } from "express";
-import process from "process"; // Needed if TypeScript version is above 6.0.3
+//import process from "process"; // Needed if TypeScript version is above 6.0.3
 
-// External Node.js dependencies
-import bodyParser from "body-parser";
-import cors from "cors";
-import "dotenv/config";
+// Infrastructure Layer dependencies
 import { authorRouter } from "./routes/author";
 import { bookRouter } from "./routes/book";
 import { customerRouter } from "./routes/customer";
 import { loanRouter } from "./routes/loan";
 import { AppDataSource, initializeDatabase } from "./persistence/data-source";
+// External Node.js dependencies
+import bodyParser from "body-parser";
+import cors from "cors";
+import "dotenv/config";
+
 
 export const app = express();
 const port: number = process.env.PORT ? Number(process.env.PORT) : 3000; // This line needs the field "types" in tsconfig.json, probably because the TypeScript version is above 6.0.3

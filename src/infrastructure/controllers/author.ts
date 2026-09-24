@@ -3,11 +3,15 @@
 import { Request, Response } from "express";
 import { TypeORMAuthor } from "../entities/typeOrmAuthor";
 import { InsertResult, UpdateResult } from "typeorm";
+
 import { AuthorDeleter } from "../../application/use-cases/authors/authorDeleter";
 import { AuthorSearcher } from "../../application/use-cases/authors/authorSearcher";
 import { AuthorFinder } from "../../application/use-cases/authors/authorFinder";
 import { AuthorCreator } from "../../application/use-cases/authors/authorCreator";
 import { AuthorUpdater } from "../../application/use-cases/authors/authorUpdater";
+
+import * as authorUseCases from "../../application/use-cases/authors";
+
 import { authorRepository } from "./dependencies/controllerDependencies";
 import { AppDataSource, initializeDatabase } from "../persistence/data-source";
 
@@ -17,7 +21,9 @@ import { AppDataSource, initializeDatabase } from "../persistence/data-source";
 
 export async function getAuthors(req: Request, res: Response) {
   let authorList: TypeORMAuthor[] = [];
-  const useCase = new AuthorSearcher(authorRepository);
+ // * const useCase = new AuthorSearcher(authorRepository); // Previous instance before using Barrel Pattern
+
+  const useCase = new authorUseCases.AuthorSearcher(authorRepository);
 
   if (!AppDataSource.isInitialized) {
     await initializeDatabase();
