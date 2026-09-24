@@ -2,10 +2,8 @@ import "reflect-metadata";
 import pg from "pg"; // Needed if we want to deploy in Vercel given how TypeORM imports drivers. This can force TypeORM to use the pg driver it needs.
 
 import { DataSource } from "typeorm";
-import { TypeORMAuthor } from "../entities/typeOrmAuthor";
-import { TypeORMBook } from "../entities/typeOrmBook";
-import { TypeORMCustomer } from "../entities/typeOrmCustomer";
-import { TypeORMLoan } from "../entities/typeOrmLoan";
+
+import * as typeOrmEntities from "../entities";
 
 // * DataSource is what allows to establish connection with DB. Several can be declared depending on the databases to work with
 // * They are always executed by calling initalize() method and connection is hold until destroy() is called.
@@ -25,7 +23,7 @@ export const AppDataSource = new DataSource({
   */
   synchronize: true, // * this property must be false when using migrations to not synchronize schemas automatically
   logging: false,
-  entities: [TypeORMAuthor, TypeORMBook, TypeORMCustomer, TypeORMLoan],
+  entities: [typeOrmEntities.TypeORMAuthor, typeOrmEntities.TypeORMBook, typeOrmEntities.TypeORMCustomer, typeOrmEntities.TypeORMLoan],
   subscribers: [],
   migrations: [], // * This line, along 'synchronize: false', it's the basic setup for migrations
   poolSize: 1, // * Capped to 1 by Supabase official docu for serverless functions, because a bigger pool caps the instance not the connection
