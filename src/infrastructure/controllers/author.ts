@@ -4,12 +4,6 @@ import { Request, Response } from "express";
 import { TypeORMAuthor } from "../entities/typeOrmAuthor";
 import { InsertResult, UpdateResult } from "typeorm";
 
-import { AuthorDeleter } from "../../application/use-cases/authors/authorDeleter";
-import { AuthorSearcher } from "../../application/use-cases/authors/authorSearcher";
-import { AuthorFinder } from "../../application/use-cases/authors/authorFinder";
-import { AuthorCreator } from "../../application/use-cases/authors/authorCreator";
-import { AuthorUpdater } from "../../application/use-cases/authors/authorUpdater";
-
 import * as authorUseCases from "../../application/use-cases/authors";
 
 import { authorRepository } from "./dependencies/controllerDependencies";
@@ -47,7 +41,8 @@ export async function getAuthor(req: Request, res: Response) {
   /*     author = await authorRepository.findOneBy({
       id: Number.parseInt(authorId),
     }); */ // * Supposing id comes from frontend in the URL. We use Number.parseInt() instead of .parseInt() because it's more recent, although they are the same.
-  const useCase = new AuthorFinder(authorRepository);
+  // * const useCase = new AuthorFinder(authorRepository);
+  const useCase = new authorUseCases.AuthorFinder(authorRepository);
   author = await useCase.run(Number.parseInt(authorId));
 
   res.status(200).send({ author });
@@ -73,7 +68,9 @@ export async function signUpAuthor(req: Request, res: Response) {
   }
 
   if (AppDataSource.isInitialized) {
-    const useCase = new AuthorCreator(authorRepository);
+    // * const useCase = new AuthorCreator(authorRepository);
+    const useCase = new authorUseCases.AuthorCreator(authorRepository);
+
     useCase.run(newAuthor);
 
     res.status(201).send("Author inserted successfully");
@@ -87,7 +84,8 @@ export async function signUpAuthor(req: Request, res: Response) {
 
 export async function updateAuthor(req: Request, res: Response) {
   const author: TypeORMAuthor = req.body; // What it is received from the frontend to send to the DB
-  const useCase = new AuthorUpdater(authorRepository);
+  // * const useCase = new AuthorUpdater(authorRepository);
+  const useCase = new authorUseCases.AuthorUpdater(authorRepository);
 
   /*     const authorResult: UpdateResult = await authorRepository.update(
       req.params.id,
@@ -104,7 +102,8 @@ export async function updateAuthor(req: Request, res: Response) {
 
 export async function deleteAuthor(req: Request, res: Response) {
   const authorId: string = req.params.id; // '.params' returns string values
-  const useCase: AuthorDeleter = new AuthorDeleter(authorRepository);
+ // * const useCase: AuthorDeleter = new AuthorDeleter(authorRepository);
+  const useCase = new authorUseCases.AuthorDeleter(authorRepository);
 
   if (!AppDataSource.isInitialized) {
     await initializeDatabase();

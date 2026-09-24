@@ -3,17 +3,15 @@ import { Request, Response } from "express";
 import { TypeORMBook } from "../entities/typeOrmBook";
 import { InsertResult } from "typeorm";
 import { UpdateResult } from "typeorm/browser";
-import { BookFinder } from "../../application/use-cases/books/bookFinder";
-import { BookSearcher } from "../../application/use-cases/books/bookSearcher";
-import { BookCreator } from "../../application/use-cases/books/bookCreator";
-import { BookUpdater } from "../../application/use-cases/books/bookUpdater";
-import { BookDeleter } from "../../application/use-cases/books/bookDeleter";
+
+import * as bookUseCases from "../../application/use-cases/books";
+
 import { bookRepository } from "./dependencies/controllerDependencies";
 import { AppDataSource, initializeDatabase } from "../persistence/data-source";
 
 export async function getBooks(req: Request, res: Response) {
   let bookList: TypeORMBook[] = [];
-  const useCase = new BookSearcher(bookRepository);
+  const useCase = new bookUseCases.BookSearcher(bookRepository);
 
   if (!AppDataSource.isInitialized) {
     await initializeDatabase();
@@ -26,7 +24,7 @@ export async function getBooks(req: Request, res: Response) {
 
 export async function getBook(req: Request, res: Response) {
   let book: TypeORMBook | null = null;
-  const useCase = new BookFinder(bookRepository);
+  const useCase = new bookUseCases.BookFinder(bookRepository);
 
   const bookId: string = req.params.id;
 
@@ -44,7 +42,7 @@ export async function registerBook(req: Request, res: Response) {
   console.log("Incoming book: ", newBook);
 
   let result: InsertResult = new InsertResult();
-  const useCase = new BookCreator(bookRepository);
+  const useCase = new bookUseCases.BookCreator(bookRepository);
 
   if (!AppDataSource.isInitialized) {
     await initializeDatabase();
@@ -58,7 +56,7 @@ export async function registerBook(req: Request, res: Response) {
 
 export async function updateBook(req: Request, res: Response) {
   const book: TypeORMBook = req.body;
-  const useCase = new BookUpdater(bookRepository);
+  const useCase = new bookUseCases.BookUpdater(bookRepository);
   /*     const bookResult: UpdateResult = await bookRepository.update(
       req.params.id,
       book,
@@ -74,7 +72,7 @@ export async function updateBook(req: Request, res: Response) {
 
 export async function deleteBook(req: Request, res: Response) {
   const bookId: string = req.params.id; // '.params' return string values
-  const useCase = new BookDeleter(bookRepository);
+  const useCase = new bookUseCases.BookDeleter(bookRepository);
 
   if (!AppDataSource.isInitialized) {
     await initializeDatabase();
