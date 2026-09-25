@@ -11,6 +11,7 @@ import { AppDataSource, initializeDatabase } from "./persistence/data-source";
 import bodyParser from "body-parser";
 import cors from "cors";
 import "dotenv/config";
+import helmet from "helmet";
 
 
 export const app = express();
@@ -22,6 +23,9 @@ app.use(bodyParser.json());
 
 // Configure CORS
 app.use(cors()); // needs npm i --save-dev @types/cors
+
+// implement Helmet to add several headers to the responses for security purposes
+app.use(helmet());
 
 // * load routers
 const customerRoutes = controllerRoutes.customerRouter;
